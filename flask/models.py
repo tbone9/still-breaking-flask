@@ -13,15 +13,15 @@ DATABASE = SqliteDatabase('still_breaking.sqlite')
 # )
 
 class User(UserMixin, Model):
-    id = PrimaryKeyField(null=False)
-    email = CharField(unique=true)
+    # id = PrimaryKeyField(null=False)
+    email = CharField(unique=True)
     password = CharField()
 
-    def __str__(self):
-        return '<User: {}, id: {}>'.format(self.email,self.id)
+    # def __str__(self):
+    #     return '<User: {}, id: {}>'.format(self.email,self.id)
 
-    def __repr__(self):
-        return '<User: {}, id:{}>'.format(self.email, self.id)
+    # def __repr__(self):
+    #     return '<User: {}, id:{}>'.format(self.email, self.id)
 
     class Meta:
         db_table = 'users'
@@ -30,7 +30,7 @@ class User(UserMixin, Model):
 class Topic(Model):
     id = PrimaryKeyField(null=False)
     name = CharField()
-    user = ForiegnKeyField(User)
+    user = ForeignKeyField(User)
 
     class Meta:
         db_table = 'topics'
@@ -38,7 +38,7 @@ class Topic(Model):
 
 class Article(Model):
     id = PrimaryKeyField(null=False)
-    topic = ForiegnKeyField(Topic)
+    topic = ForeignKeyField(Topic)
     source = CharField()
     title = CharField()
     description = CharField()
@@ -53,7 +53,7 @@ class Article(Model):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User, Topic, Article], safe = true)
+    DATABASE.create_tables([User, Topic, Article], safe = True)
     print("tables created successfully")
     DATABASE.close()
 
