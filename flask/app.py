@@ -1,8 +1,10 @@
+import models
 from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 from resources.users import user
 from resources.topics import topic
 from resources.articles import article
+from flask_login import LoginManager
 
 
 DEBUG = True
@@ -11,6 +13,30 @@ PORT = 8000
 # Initialize an instance of the Flask class.
 # This starts the website!
 app = Flask(__name__)
+
+app.secret_key = ';laskjfla;skfjower;lksf'
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        return models.User.get(models.User.id == user_id)
+    except models.DoesNotExist:
+        return None
+
+@app.before_request
+def before_request():
+    """Connect to the database before each request."""
+    g.db = models.DATABASE
+    g.db.connect()
+
+
+@app.after_request
+def after_request(response):
+    """Close the database connection after each request."""
+    g.db.close()
+    return response
 
 # The default URL ends in / ("my-website.com/").
 @app.route('/')
@@ -28,4 +54,5 @@ app.register_blueprint(article, url_prefix='/api/v1/article')
 
 # Run the app when the program starts!
 if __name__ == '__main__':
+    models.initialize()
     app.run(debug=DEBUG, port=PORT)
