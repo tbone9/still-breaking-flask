@@ -30,6 +30,7 @@ def register():
     except models.DoesNotExist:
         payload['password'] = generate_password_hash(payload['password'])
         new_user = models.User.create(**payload)
+        login_user(new_user)
 
         user_dict = model_to_dict(new_user)
         print(user_dict, 'USER DICT')
