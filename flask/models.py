@@ -28,9 +28,9 @@ class User(UserMixin, Model):
         database = DATABASE
 
 class Topic(Model):
-    id = PrimaryKeyField(null=False)
+    #id = PrimaryKeyField(null=False)
     name = CharField()
-    user = ForeignKeyField(User)
+    # user = ForeignKeyField(User)
 
     class Meta:
         db_table = 'topics'
