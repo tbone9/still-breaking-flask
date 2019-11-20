@@ -15,13 +15,15 @@ def get_all_users():
     except models.DoesNotExist:
         return jsonify(data={}, status={'code': 401, 'message': 'Error getting the resources'})
 
-# @user.route('/<userId>/', methods=['PUT'])
-# def update_user(userId):
-#     print('updating users')
-#     payload = request.get_json()
-#     if not current_user.is_authenticated:
-#         return jsonify(data={}, status={'code': 401, 'message':'You must be logged in to updates topic'})
-#     return('updating user')
+@user.route('/<id>/', methods=['GET'])
+def get_one_user(id):
+
+    if current_user.id != id:
+        return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in!'})
+    else:
+        user = models.User.get_by_id(id)
+        user_dict = model_to_dict(user)
+        return jsonify(data=user_dict, status={'code': 200, 'message': 'This is the current user'})
 
 @user.route('/register', methods=['POST'])
 def register():

@@ -1,0 +1,13 @@
+USER
+
+{"email": "tyler@tyler.com", "password": "123"}
+
+{"email":"test@test.com", "password":"123"}
+
+TOPIC
+
+{"name":"North Korea","description":"a topic for North Korea"}
+
+ARTICLE
+
+{"source": "sourceText", "title":"titleText","description":"descriptionText","url":"urlText","urlToImage":"urlToImageText","publishedAt":"publishedAtText"}
