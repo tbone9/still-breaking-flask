@@ -31,20 +31,16 @@ def create_topic():
     return jsonify(status={'code': 201, 'msg': 'success'}, data=create_topic_dict)
     
 
-    # delete route
-    @topic.route('/<id>', methods=['DELETE'])
-    @login_required
-    def delete_topic(id):
-        return 'DELETE'
-        # topic_to_delete = models.Topic.get_by_id(id)
+# delete route
+@topic.route('/<id>/', methods=['DELETE'])
+# @login_required
+def delete_topic(id):
+    
+    topic_to_delete = models.Topic.get_by_id(id)
 
-        # if topic_to_delete.user.id != current_user.id:
-        #     return jsonify(data="Forbidden", status={
-        #         'code': 403,
-        #         'message': "User can only delete their own dogs."
-        #     })
-        # else:
-        #     topic_name = topic_to_delete.name
-        #     topic_to_delete.delete_instance()
-        #     return jsonify(data='Topic successfully deleted', status={"code": 200, "message": "{} deleted successfully".format(topic_name)
-        #     })
+    if topic_to_delete.user.id != current_user.id:
+        return jsonify(data="Forbidden", status={'code': 403, 'message': "User can only delete their own dogs."})
+    else:
+        topic_name = topic_to_delete.name
+        topic_to_delete.delete_instance()
+        return jsonify(data='Topic successfully deleted', status={"code": 200, "message": "{} deleted successfully".format(topic_name)})
