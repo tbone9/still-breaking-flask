@@ -55,7 +55,7 @@ def index():
 CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(user, url_prefix='/api/v1/user')
 
-# CORS(topic, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(topic, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(topic, url_prefix='/api/v1/topic')
 
 CORS(article, origins=['http://localhost:3000'], supports_credentials=True)
