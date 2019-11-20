@@ -29,7 +29,7 @@ def create_topic():
     created_topic = models.Topic.create(**payload)
     create_topic_dict = model_to_dict(created_topic)
     return jsonify(status={'code': 201, 'msg': 'success'}, data=create_topic_dict)
-    
+
 
 # delete route
 @topic.route('/<id>/', methods=['DELETE'])
