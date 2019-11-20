@@ -17,6 +17,21 @@ def get_user_topics():
     except models.DoesNotExist:
         return jsonify(data={}, status={'code': 401, 'message': 'Error getting the resources'})
 
+# working/not tested
+# show route
+@topic.route('/<topicId>/',methods=['GET'])
+def show_topic(topicId):
+    #if not current_user.is_authenticated: # Checks if user is logged in
+        #return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to view this article'})
+    try:
+        found_topic = models.Topic.get(id=topicId)
+        topic_dict = model_to_dict(found_topic)
+        #if article_dict.topic.user.id is not current_user.id: 
+            #return jsonify(data={}, status={'code': 401, 'message': 'You can only add articles to your own topics'})
+        return jsonify(data=topic_dict,status={"code":"201","message":"topic found"})
+    except models.DoesNotExist:
+        return jsonify(data={}, status={'code': 401, 'message': 'Topic to show does not exist'})
+
 #create topic
 @topic.route('/', methods=['POST'])
 def create_topic():
@@ -30,6 +45,28 @@ def create_topic():
     create_topic_dict = model_to_dict(created_topic)
     return jsonify(status={'code': 201, 'msg': 'success'}, data=create_topic_dict)
     
+# update route
+@topic.route('/<topicId>/', methods=['PUT'])
+def update_topic(topicId):
+    print('topic edit route')
+    payload = request.get_json()
+    if not current_user.is_authenticated:
+        return jsonify(data={}, status={'code': 401, 'message':'You must be logged in to updates topic'})
+    try:
+        topic = models.Topic.get_by_id(topicId)
+        topic_dict = model_to_dict(topic)
+        print(topic_dict.user.id)
+        if topic_dict.user.id is not current_user.id: 
+            return jsonify(data={}, status={'code': 401, 'message': 'You can only update your own articles'})
+        updated_topic = models.Topic.update(
+                name=payload['name'],
+                description=payload['description'],
+            ).where(models.Topic.id==topicId).execute()
+        updated_topic_dict = model_to_dict(models.Topic.get(id=topicId))
+        return jsonify(data=updated_topic_dict, status={"code": 201, "message": "Topic updated"})
+    except models.DoesNotExist:
+        return jsonify(data={}, status={'code': 401, 'message': 'Topic to update does not exist'})
+      
 
 # delete route
 @topic.route('/<id>/', methods=['DELETE'])

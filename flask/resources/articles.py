@@ -15,6 +15,7 @@ def index_articles():
         return jsonify(data=all_articles, status={'code': 200, 'message': 'Success'})
     except models.DoesNotExist:
         return jsonify(data={}, status={'code': 401, 'message': 'Error getting the resources'})
+
 # working/not tested
 # show route
 @article.route('/<articleId>/',methods=['GET'])
@@ -29,6 +30,7 @@ def show_article(articleId):
         return jsonify(data=article_dict,status={"code":"201","message":"article found"})
     except models.DoesNotExist:
         return jsonify(data={}, status={'code': 401, 'message': 'Article to show does not exist'})
+
 #working/not tested
 # create route
 @article.route('/<topicId>/', methods=['POST'])
