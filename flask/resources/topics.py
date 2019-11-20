@@ -10,8 +10,8 @@ def get_user_topics():
     try:
         this_users_topics = models.Topic.select().where(models.Topic.user_id == current_user.id)
 
-        this_users_topics = [model_to_dict(topic) for topic in this_users_topics
-        ]
+        this_users_topics = [model_to_dict(topic) for topic in this_users_topics]
+
         print(this_users_topics)
         return jsonify(data=this_users_topics, status={'code': 200, 'message': 'Success'})
     except models.DoesNotExist:
@@ -75,9 +75,12 @@ def delete_topic(id):
     
     topic_to_delete = models.Topic.get_by_id(id)
 
-    if topic_to_delete.user.id != current_user.id:
-        return jsonify(data="Forbidden", status={'code': 403, 'message': "User can only delete their own dogs."})
-    else:
-        topic_name = topic_to_delete.name
-        topic_to_delete.delete_instance()
-        return jsonify(data='Topic successfully deleted', status={"code": 200, "message": "{} deleted successfully".format(topic_name)})
+    # if topic_to_delete.user.id != current_user.id:
+    #     return jsonify(data="Forbidden", status={'code': 403, 'message': "User can only delete their own topics."})
+    # else:
+    topic_name = topic_to_delete.name
+    # articles_to_delete = models.Article.select().where(models.Article.topic.user.id == current_user.id)
+    
+    # articles_to_delete.delete()
+    topic_to_delete.delete_instance(recursive=True)
+    return jsonify(data='Topic successfully deleted', status={"code": 200, "message": "{} deleted successfully".format(topic_name)})
