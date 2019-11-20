@@ -67,3 +67,10 @@ def logout():
     logout_user()
 
     return jsonify(data={}, status={'code': 200, 'message': "Successfully logged out {}".format(email)})
+
+@user.route('/<userId>/', methods=['DELETE'])
+def delete_user(userId):
+    try:
+        user_to_delete = models.User.get_by_id(userId)
+        this_users_topics = models.Topic.select().where(models.Topic.user_id == userId)
+        this_users_articles = models.Articles.select().where(models.Article.)

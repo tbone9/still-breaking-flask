@@ -6,19 +6,19 @@ from playhouse.shortcuts import model_to_dict
 article = Blueprint('articles', 'article')
 
 # index route
-@article.route('/', methods=['GET'])
-def index_articles():
+@article.route('/<topicId>/', methods=['GET'])
+def index_articles(topicId):
     #if not current_user.is_authenticated: # Checks if user is logged in
         #return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to view articles'})
     try:
-        all_articles = [model_to_dict(a) for a in models.Article.select().where(models.Article.user.id == current_user.id)]
+        all_articles = [model_to_dict(a) for a in models.Article.select().where(models.Article.topic_id == topicId)]
         return jsonify(data=all_articles, status={'code': 200, 'message': 'Success'})
     except models.DoesNotExist:
         return jsonify(data={}, status={'code': 401, 'message': 'Error getting the resources'})
 
 # working/not tested
 # show route
-@article.route('/<articleId>/',methods=['GET'])
+@article.route('/show/<articleId>/',methods=['GET'])
 def show_article(articleId):
     #if not current_user.is_authenticated: # Checks if user is logged in
         #return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to view this article'})
