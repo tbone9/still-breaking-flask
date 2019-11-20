@@ -15,13 +15,21 @@ def get_all_users():
     except models.DoesNotExist:
         return jsonify(data={}, status={'code': 401, 'message': 'Error getting the resources'})
 
-# @user.route('/<userId>/', methods=['PUT'])
-# def update_user(userId):
-#     print('updating users')
-#     payload = request.get_json()
-#     if not current_user.is_authenticated:
-#         return jsonify(data={}, status={'code': 401, 'message':'You must be logged in to updates topic'})
-#     return('updating user')
+@user.route('/<userId>/', methods=['PUT'])
+def update_user(userId):
+    print('updating users')
+    payload = request.get_json()
+    if not current_user.is_authenticated:
+        return jsonify(data={}, status={'code': 401, 'message':'You must be logged in to updates topic'})
+    try:
+        updated_user = models.User.update(
+            email=payload['email'],
+            password=payload['password']
+        ).where(models.User.id==userId).execute()
+        updated_user_dict = model_to_dict(models.User.get(id=userId))
+        return jsonify(data=updated_user_dict, status={"code": 201, "message": "Article updated"})
+    except models.DoesNotExist:
+        return jsonify(data={}, status={'code': 401, 'message': 'User to update does not exist'})
 
 @user.route('/register', methods=['POST'])
 def register():
