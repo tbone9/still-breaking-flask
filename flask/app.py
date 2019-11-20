@@ -25,6 +25,15 @@ def load_user(user_id):
     except models.DoesNotExist:
         return None
 
+@login_manager.unauthorized_handler
+def unauthorized():
+  return jsonify(data={
+      'error': 'User not logged in.'
+    }, status={
+      'code': 401,
+      'message': "You must be logged in to access that resource."
+    }), 401
+
 @app.before_request
 def before_request():
     """Connect to the database before each request."""
