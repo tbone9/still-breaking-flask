@@ -31,6 +31,7 @@ class Topic(Model):
     #id = PrimaryKeyField(null=False)
     name = CharField()
     user = ForeignKeyField(User, backref='users')
+    description = CharField()
 
     class Meta:
         db_table = 'topics'
