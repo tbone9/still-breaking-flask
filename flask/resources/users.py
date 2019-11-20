@@ -85,7 +85,7 @@ def logout():
 
 @user.route('/<userId>/', methods=['DELETE'])
 def delete_user(userId):
-    try:
-        user_to_delete = models.User.get_by_id(userId)
-        this_users_topics = models.Topic.select().where(models.Topic.user_id == userId)
-        this_users_articles = models.Articles.select().where(models.Article.)
+    user_to_delete = models.User.get_by_id(userId)
+    user_to_delete.delete_instance(recursive=True)
+    return jsonify(data='User deleted successfully', status={'code': 200, 'message': 'deleted successfully'})
+        
