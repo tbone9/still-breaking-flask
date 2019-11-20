@@ -6,7 +6,7 @@ USER
 
 TOPIC
 
-{"name":"North Korea","description":"a topic for North Korea"}
+{"name": "North Korea", "description": "a topic for North Korea"}
 
 ARTICLE
 

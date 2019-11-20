@@ -82,3 +82,10 @@ def logout():
     logout_user()
 
     return jsonify(data={}, status={'code': 200, 'message': "Successfully logged out {}".format(email)})
+
+@user.route('/<userId>/', methods=['DELETE'])
+def delete_user(userId):
+    user_to_delete = models.User.get_by_id(userId)
+    user_to_delete.delete_instance(recursive=True)
+    return jsonify(data='User deleted successfully', status={'code': 200, 'message': 'deleted successfully'})
+        
