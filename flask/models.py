@@ -30,7 +30,7 @@ class User(UserMixin, Model):
 class Topic(Model):
     #id = PrimaryKeyField(null=False)
     name = CharField()
-    user = ForeignKeyField(User)
+    user = ForeignKeyField(User, backref='users')
 
     class Meta:
         db_table = 'topics'
@@ -38,7 +38,7 @@ class Topic(Model):
 
 class Article(Model):
     id = PrimaryKeyField(null=False)
-    topic = ForeignKeyField(Topic)
+    topic = ForeignKeyField(Topic, backref='topics')
     source = CharField()
     title = CharField()
     description = CharField()
