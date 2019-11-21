@@ -35,6 +35,7 @@ def show_article(articleId):
 # create route
 @article.route('/<topicId>/', methods=['POST'])
 def create_article(topicId):
+    print(topicId)
     topic = models.Topic.get_by_id(topicId)
     topic_dict = model_to_dict(topic)
     #if not current_user.is_authenticated:
@@ -46,6 +47,7 @@ def create_article(topicId):
     created_article = models.Article.create(**payload)
     article_dict = model_to_dict(created_article)
     return jsonify(data=article_dict,status={"code": "201", "message": "article saved"})
+    print(create_article)
 # working/not tested
 # delete route
 @article.route('/<articleId>/', methods=['DELETE'])
