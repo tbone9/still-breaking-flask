@@ -30,13 +30,15 @@ def update_user(userId):
         return jsonify(data=updated_user_dict, status={"code": 201, "message": "Article updated"})
     except models.DoesNotExist:
         return jsonify(data={}, status={'code': 401, 'message': 'User to update does not exist'})
-@user.route('/<id>/', methods=['GET'])
-def get_one_user(id):
+@user.route('/show/', methods=['GET'])
+def get_one_user():
+    if not current_user.is_authenticated:
+        return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to view this user'})
 
-    if current_user.id != id:
-        return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in!'})
+    # if current_user.id != id:
+    #     return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in!'})
     else:
-        user = models.User.get_by_id(id)
+        user = models.User.get_by_id(current_user.id)
         user_dict = model_to_dict(user)
         return jsonify(data=user_dict, status={'code': 200, 'message': 'This is the current user'})
 
