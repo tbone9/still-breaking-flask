@@ -15,6 +15,7 @@ PORT = 8000
 app = Flask(__name__)
 
 app.secret_key = ';laskjfla;skfjower;lksf'
+app.cors_headers = 'Content-Type'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -55,7 +56,7 @@ def index():
 CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(user, url_prefix='/api/v1/user')
 
-# CORS(topic, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(topic, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(topic, url_prefix='/api/v1/topic')
 
 CORS(article, origins=['http://localhost:3000'], supports_credentials=True)

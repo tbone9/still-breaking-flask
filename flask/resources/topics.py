@@ -7,6 +7,7 @@ topic = Blueprint('topics', 'topic')
 
 @topic.route('/', methods=['GET'])
 def get_user_topics():
+    print('topic index route')
     try:
         this_users_topics = models.Topic.select().where(models.Topic.user_id == current_user.id)
 
@@ -37,7 +38,7 @@ def show_topic(topicId):
 def create_topic():
     print('topic create route')
     payload = request.get_json()
-    if not current_user.is_authenticated: # Check if user is authenticated and allowed to create a new dog
+    if not current_user.is_authenticated:
         print(current_user)
         return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to create a topic'})
     payload['user'] = current_user.id

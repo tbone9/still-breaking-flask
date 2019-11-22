@@ -32,7 +32,7 @@ def update_user(userId):
         return jsonify(data={}, status={'code': 401, 'message': 'User to update does not exist'})
 @user.route('/<id>/', methods=['GET'])
 def get_one_user(id):
-
+    
     if current_user.id != id:
         return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in!'})
     else:

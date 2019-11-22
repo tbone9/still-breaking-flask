@@ -13,7 +13,7 @@ DATABASE = SqliteDatabase('still_breaking.sqlite')
 # )
 
 class User(UserMixin, Model):
-    # id = PrimaryKeyField(null=False)
+    id = PrimaryKeyField(null=False)
     email = CharField(unique=True)
     password = CharField()
 
@@ -28,7 +28,7 @@ class User(UserMixin, Model):
         database = DATABASE
 
 class Topic(Model):
-    #id = PrimaryKeyField(null=False)
+    id = PrimaryKeyField(null=False)
     name = CharField()
     user = ForeignKeyField(User, backref='users')
     description = CharField()
