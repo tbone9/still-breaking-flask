@@ -13,7 +13,7 @@ DATABASE = SqliteDatabase('still_breaking.sqlite')
 # )
 
 class User(UserMixin, Model):
-    # id = PrimaryKeyField(null=False)
+    id = PrimaryKeyField(null=False)
     email = CharField(unique=True)
     password = CharField()
 
@@ -28,7 +28,7 @@ class User(UserMixin, Model):
         database = DATABASE
 
 class Topic(Model):
-    #id = PrimaryKeyField(null=False)
+    id = PrimaryKeyField(null=False)
     name = CharField()
     user = ForeignKeyField(User, backref='users')
     description = CharField()
@@ -51,10 +51,20 @@ class Article(Model):
         db_table = 'articles'
         database = DATABASE
 
+class Note(Model):
+    id = PrimaryKeyField(null=False)
+    article = ForeignKeyField(Topic, backref='notes')
+    title = CharField()
+    text = CharField()
+
+    class Meta:
+        db_table = 'notes'
+        database = DATABASE
+
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User, Topic, Article], safe = True)
+    DATABASE.create_tables([User, Topic, Article, Note], safe = True)
     print("tables created successfully")
     DATABASE.close()
 

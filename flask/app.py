@@ -4,8 +4,8 @@ from flask_cors import CORS
 from resources.users import user
 from resources.topics import topic
 from resources.articles import article
+from resources.notes import note
 from flask_login import LoginManager
-
 
 DEBUG = True
 PORT = 8000
@@ -15,6 +15,7 @@ PORT = 8000
 app = Flask(__name__)
 
 app.secret_key = ';laskjfla;skfjower;lksf'
+app.cors_headers = 'Content-Type'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -60,6 +61,9 @@ app.register_blueprint(topic, url_prefix='/api/v1/topic')
 
 CORS(article, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(article, url_prefix='/api/v1/article')
+
+CORS(note, origins=['http://localhost:3000'], supports_credentials=True)
+app.register_blueprint(note, url_prefix='/api/v1/note')
 
 # Run the app when the program starts!
 if __name__ == '__main__':
