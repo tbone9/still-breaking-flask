@@ -57,9 +57,8 @@ def create_note(articleId):
 # TODO not working
 # delete route
 @note.route('/<noteId>/', methods=['DELETE'])
-def delete_article(noteId):
+def delete_note(noteId):
     print('deleting note')
-    note_to_delete = models.Note.get(id=noteId)
     try:
         note_to_delete = models.Note.get(id=noteId)
         #if not current_user.is_authenticated:
