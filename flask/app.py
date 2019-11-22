@@ -1,3 +1,4 @@
+import os
 import models
 from flask import Flask, request, jsonify, g
 from flask_cors import CORS
@@ -53,17 +54,21 @@ def after_request(response):
 def index():
     return 'hi'
 
-CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(user, origins=['http://localhost:3000', 'http://https://still-breaking-flask.herokuapp.com'], supports_credentials=True)
 app.register_blueprint(user, url_prefix='/api/v1/user')
 
-CORS(topic, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(topic, origins=['http://localhost:3000', 'http://https://still-breaking-flask.herokuapp.com'], supports_credentials=True)
 app.register_blueprint(topic, url_prefix='/api/v1/topic')
 
-CORS(article, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(article, origins=['http://localhost:3000', 'http://https://still-breaking-flask.herokuapp.com'], supports_credentials=True)
 app.register_blueprint(article, url_prefix='/api/v1/article')
 
-CORS(note, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(note, origins=['http://localhost:3000', 'http://https://still-breaking-flask.herokuapp.com'], supports_credentials=True)
 app.register_blueprint(note, url_prefix='/api/v1/note')
+
+if 'ON_HEROKU' in os.environ:
+    print('hitting ')
+    models.initialize()
 
 # Run the app when the program starts!
 if __name__ == '__main__':
