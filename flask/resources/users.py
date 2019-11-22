@@ -19,12 +19,13 @@ def get_all_users():
 def update_user(userId):
     print('updating users')
     payload = request.get_json()
+    print(type(payload), ' PAYLOAD')
     if not current_user.is_authenticated:
         return jsonify(data={}, status={'code': 401, 'message':'You must be logged in to updates topic'})
     try:
         updated_user = models.User.update(
-            email=payload['email'],
-            password=payload['password']
+            email=payload,
+            # password=payload['password']
         ).where(models.User.id==userId).execute()
         updated_user_dict = model_to_dict(models.User.get(id=userId))
         return jsonify(data=updated_user_dict, status={"code": 201, "message": "Article updated"})
