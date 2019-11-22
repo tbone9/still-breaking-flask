@@ -73,21 +73,21 @@ def delete_note(noteId):
 @note.route('/<noteId>/', methods=['PUT'])
 def update_note(noteId):
     print('updating note')
-    payload = request.get_json()
-    print(payload)
-    note = models.Note.get_by_id(noteId)
-    note_dict = model_to_dict(note)
-    print(note_dict)
-    #if not current_user.is_authenticated:
-        #return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to save an article'})
-    #if article_dict.topic.user.id is not current_user.id: 
-        #return jsonify(data={}, status={'code': 401, 'message': 'You can only delete your own articles'})
-    updated_note = models.Note.update(
-        title=payload['title'],
-        text=payload['text'],
-    ).where(models.Note.id==noteId).execute()
-    updated_note_dict = model_to_dict(models.Note.get_by_id(noteId))
-    return jsonify(data=updated_note_dict, status={"code": 201, "message": "Note updated"})
+    # payload = request.get_json()
+    # print(payload)
+    # note = models.Note.get_by_id(noteId)
+    # note_dict = model_to_dict(note)
+    # print(note_dict)
+    # #if not current_user.is_authenticated:
+    #     #return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to save an article'})
+    # #if article_dict.topic.user.id is not current_user.id: 
+    #     #return jsonify(data={}, status={'code': 401, 'message': 'You can only delete your own articles'})
+    # updated_note = models.Note.update(
+    #     title=payload['title'],
+    #     text=payload['text'],
+    # ).where(models.Note.id==noteId).execute()
+    # updated_note_dict = model_to_dict(models.Note.get_by_id(noteId))
+    # return jsonify(data=updated_note_dict, status={"code": 201, "message": "Note updated"})
     try:
         payload = request.get_json()
         note = models.Note.get_by_id(noteId)
