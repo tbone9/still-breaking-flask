@@ -48,6 +48,7 @@ def create_article(topicId):
     article_dict = model_to_dict(created_article)
     return jsonify(data=article_dict,status={"code": "201", "message": "article saved"})
     print(create_article)
+
 # working/not tested
 # delete route
 @article.route('/<articleId>/', methods=['DELETE'])
