@@ -6,6 +6,7 @@ from resources.users import user
 from resources.topics import topic
 from resources.articles import article
 from resources.notes import note
+from resources.searches import search
 from flask_login import LoginManager
 
 DEBUG = True
@@ -65,6 +66,9 @@ app.register_blueprint(article, url_prefix='/api/v1/article')
 
 CORS(note, origins=['http://localhost:3000', 'http://https://still-breaking-flask.herokuapp.com'], supports_credentials=True)
 app.register_blueprint(note, url_prefix='/api/v1/note')
+
+CORS(search, origins=['http://localhost:3000', 'http://https://still-breaking-flask.herokuapp.com'], supports_credentials=True)
+app.register_blueprint(search, url_prefix='/api/v1/search')
 
 if 'ON_HEROKU' in os.environ:
     print('hitting ')

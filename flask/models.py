@@ -58,7 +58,7 @@ class Article(Model):
 
 class Note(Model):
     id = PrimaryKeyField(null=False)
-    article = ForeignKeyField(Topic, backref='notes')
+    article = ForeignKeyField(Article, backref='articles')
     title = CharField()
     text = CharField()
 
@@ -66,10 +66,18 @@ class Note(Model):
         db_table = 'notes'
         database = DATABASE
 
+class Search(Model):
+    id = PrimaryKeyField(null=False)
+    topic = ForeignKeyField(Topic, backref='topics')
+    text = CharField()
+
+    class Meta:
+        db_table = 'searches'
+        database = DATABASE
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User, Topic, Article, Note], safe = True)
+    DATABASE.create_tables([User, Topic, Article, Note, Search], safe = True)
     print("tables created successfully")
     DATABASE.close()
 
