@@ -56,9 +56,9 @@ def update_topic(topicId):
     try:
         topic = models.Topic.get_by_id(topicId)
         topic_dict = model_to_dict(topic)
-        print(topic_dict.user.id)
-        if topic_dict.user.id is not current_user.id: 
-            return jsonify(data={}, status={'code': 401, 'message': 'You can only update your own articles'})
+        print(topic_dict, 'TOPIC DICT')
+        # if topic_dict.user.id is not current_user.id: 
+        #     return jsonify(data={}, status={'code': 401, 'message': 'You can only update your own articles'})
         updated_topic = models.Topic.update(
                 name=payload['name'],
                 description=payload['description'],
