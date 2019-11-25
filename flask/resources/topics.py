@@ -22,8 +22,8 @@ def get_user_topics():
 # show route
 @topic.route('/<topicId>/',methods=['GET'])
 def show_topic(topicId):
-    #if not current_user.is_authenticated: # Checks if user is logged in
-        #return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to view this article'})
+    if not current_user.is_authenticated: # Checks if user is logged in
+        return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to view this topic'})
     try:
         found_topic = models.Topic.get(id=topicId)
         topic_dict = model_to_dict(found_topic)
@@ -37,10 +37,11 @@ def show_topic(topicId):
 @topic.route('/', methods=['POST'])
 def create_topic():
     print('topic create route')
-    payload = request.get_json()
+    
     if not current_user.is_authenticated:
-        print(current_user)
+        print(current_user, 'NOT ALLOWED')
         return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to create a topic'})
+    payload = request.get_json()
     payload['user'] = current_user.id
     created_topic = models.Topic.create(**payload)
     create_topic_dict = model_to_dict(created_topic)
@@ -57,8 +58,8 @@ def update_topic(topicId):
         topic = models.Topic.get_by_id(topicId)
         topic_dict = model_to_dict(topic)
         print(topic_dict, 'TOPIC DICT')
-        # if topic_dict.user.id is not current_user.id: 
-        #     return jsonify(data={}, status={'code': 401, 'message': 'You can only update your own articles'})
+        if topic_dict.user.id is not current_user.id: 
+            return jsonify(data={}, status={'code': 401, 'message': 'You can only update your own articles'})
         updated_topic = models.Topic.update(
                 name=payload['name'],
                 description=payload['description'],
@@ -76,10 +77,10 @@ def delete_topic(id):
     
     topic_to_delete = models.Topic.get_by_id(id)
 
-    # if topic_to_delete.user.id != current_user.id:
-    #     return jsonify(data="Forbidden", status={'code': 403, 'message': "User can only delete their own topics."})
-    # else:
-    topic_name = topic_to_delete.name
+    if topic_to_delete.user.id != current_user.id:
+        return jsonify(data="Forbidden", status={'code': 403, 'message': "User can only delete their own topics."})
+    else:
+        topic_name = topic_to_delete.name
     # articles_to_delete = models.Article.select().where(models.Article.topic.user.id == current_user.id)
     
     # articles_to_delete.delete()
