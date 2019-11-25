@@ -20,8 +20,8 @@ def index_articles(topicId):
 # show route
 @article.route('/show/<articleId>/',methods=['GET'])
 def show_article(articleId):
-    if not current_user.is_authenticated: # Checks if user is logged in
-        return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to view this article'})
+    # if not current_user.is_authenticated: # Checks if user is logged in
+    #     return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to view this article'})
     try:
         found_article = models.Article.get(id=articleId)
         article_dict = model_to_dict(found_article)
@@ -38,8 +38,8 @@ def create_article(topicId):
     print(topicId)
     topic = models.Topic.get_by_id(topicId)
     topic_dict = model_to_dict(topic)
-    if not current_user.is_authenticated:
-        return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to save an article'})
+    # if not current_user.is_authenticated:
+    #     return jsonify(data={}, status={'code': 401, 'message': 'You must be logged in to save an article'})
     # if topic_dict.user.id is not current_user.id: 
     #         return jsonify(data={}, status={'code': 401, 'message': 'You can only add articles to your own topics'})
     payload = request.get_json()
