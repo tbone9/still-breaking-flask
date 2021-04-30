@@ -18,7 +18,7 @@ psycopg2-binary==2.8.4
 pycparser==2.19
 pylint==2.4.3
 six==1.13.0
-urllib3==1.25.7
+urllib3==1.25.8
 virtualenv==16.7.7
 Werkzeug==0.16.0
 wrapt==1.11.2
